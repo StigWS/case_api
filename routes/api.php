@@ -19,6 +19,6 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::get('get-page/{page_id}/{language?}', [PageController::class, 'get_page']);
-Route::post('add-page', [PageController::class, 'add_page']);
-Route::put('update-translation', [PageController::class, 'update_translation']);
+Route::get('get-page/{page_id}/{language_code?}', [PageController::class, 'getPage']);
+Route::post('add-page', [PageController::class, 'addPage']);
+Route::put('update-translation', [PageController::class, 'updateTranslation']);

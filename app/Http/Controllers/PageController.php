@@ -9,13 +9,13 @@ use Illuminate\Support\Facades\Validator;
 
 class PageController extends Controller
 {
-    public function get_page($page_id, $language = null)
+    public function getPage($page_id, $language_code = null)
     {
-        if ($language)
+        if ($language_code)
         {
             return Page::where('id', $page_id)
-                ->with(['translations' => function($q) use($language) {
-                        $q->where('language_code', $language);
+                ->with(['translations' => function($q) use($language_code) {
+                        $q->where('language_code', $language_code);
                     }])
                 ->first();
         }
@@ -23,7 +23,7 @@ class PageController extends Controller
         return Page::where('id', $page_id)->with('translations')->first();
     }
 
-    public function add_page(Request $request)
+    public function addPage(Request $request)
     {
         $validator = Validator::make($request->all(), [
             'translations' => 'required|array',
@@ -55,9 +55,10 @@ class PageController extends Controller
         return ['data' => 'Page is added!'];
     }
 
-    public function update_translation(Request $request)
+    public function updateTranslation(Request $request)
     {
         $validator = Validator::make($request->all(), [
+            'id' => 'required',
             'language_code' => 'sometimes|required|min:2',
             "entity_type" => 'sometimes|required',
             "entity_id" => "sometimes|required",
